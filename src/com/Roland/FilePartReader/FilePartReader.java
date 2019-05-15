@@ -51,5 +51,38 @@ public class FilePartReader {
         setToLine(toLine);
     }
 
+    private String read() throws IOException {
+        String line;
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(this.getFilePath()))) {
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.equals("")) continue;
+                stringBuilder.append(line).append("\n");
+            }
+            return stringBuilder.toString();
+        }
+    }
+
+    public String readLines() throws FileNotFoundException{
+        try {
+            String fileContent = this.read();
+            List <String> outputList = new ArrayList<>();
+            List<String> contentInList = Arrays.asList(fileContent.split("\n"));
+            for (String line : contentInList) {
+                if ((contentInList.indexOf(line) >= this.getFromLine()-1)
+                        && (contentInList.indexOf(line) <= this.getToLine()-1)) {
+                    outputList.add(line+"\n");
+                }
+            }
+            String output = String.join("", outputList);
+            return output.substring(0, output.length()-1);
+        } catch (FileNotFoundException ex) {
+            throw new FileNotFoundException("File not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
