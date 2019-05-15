@@ -10,10 +10,13 @@ import java.util.List;
 
 public class FilePartReader {
     private String filePath;
-    private Integer fromLine;
-    private Integer toLine;
+    private int fromLine;
+    private int toLine;
 
     public FilePartReader() {
+        setFilePath(data/test.txt);
+        setFromLine(1);
+        setToLine(1);
     }
 
     public String getFilePath() {
@@ -39,4 +42,14 @@ public class FilePartReader {
     public void setToLine(Integer toLine) {
         this.toLine = toLine;
     }
+
+    public void setup(String filePath, Integer fromLine, Integer toLine) {
+        if (fromLine < 1) throw new IllegalArgumentException("Start line cannot be smaller than 1");
+        if (toLine < fromLine) throw new IllegalArgumentException("Start line cannot be smaller than endline");
+        setFilePath(filePath);
+        setFromLine(fromLine);
+        setToLine(toLine);
+    }
+
+
 }
